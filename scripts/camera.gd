@@ -2,6 +2,7 @@ extends Control
 
 
 
+
 func _ready():
 	pass
 	
@@ -15,5 +16,5 @@ func _physics_process(_delta):
 	if Input.is_action_pressed("right"):
 		global_position.x += 10
 	
-	#if Input.is_action_pressed("debug"):
-	#	print(get_parent().get_parent().get_child(0).get_child(0).cell_node.get_children().size())
+	if Input.is_action_just_pressed("debug"):
+		get_parent().load_level()

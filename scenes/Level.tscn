@@ -20,9 +20,24 @@ tile_shape = 3
 tile_size = Vector2i(20, 20)
 sources/0 = SubResource("TileSetAtlasSource_k5jlv")
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k5jlv"]
+noise_type = 2
+seed = 42069
+frequency = 0.0022
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6vs76"]
+noise = SubResource("FastNoiseLite_k5jlv")
+
 [node name="Level" type="Node2D" unique_id=1153965306]
 script = ExtResource("1_uhqny")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=679719408]
-scale = Vector2(6, 6)
+scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_6vs76")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1813841139]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("NoiseTexture2D_6vs76")
