@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://dvr1vytunetx6" path="res://scripts/root.gd" id="1_3p0gp"]
 [ext_resource type="Script" uid="uid://6rmgl7kiv23k" path="res://scripts/camera.gd" id="2_3p0gp"]
 [ext_resource type="Script" uid="uid://v7uavkltub48" path="res://scripts/ui.gd" id="2_tinwa"]
+[ext_resource type="Script" uid="uid://dqjgaa8a26g5e" path="res://scripts/game_panel.gd" id="3_lpcpv"]
+[ext_resource type="Texture2D" uid="uid://b41li43if5vx1" path="res://textures/lever/on.png" id="4_ktv5l"]
+[ext_resource type="Texture2D" uid="uid://ba7iwehb6ktpd" path="res://textures/lever/off.png" id="5_d886v"]
+[ext_resource type="Script" uid="uid://twh1eipy5hpy" path="res://scenes/lever.gd" id="6_7ih0r"]
+
+[sub_resource type="BitMap" id="BitMap_34pqb"]
 
 [node name="SceneRoot" type="Node2D" unique_id=1510458766]
 script = ExtResource("1_3p0gp")
@@ -69,6 +75,7 @@ layout_mode = 3
 anchor_right = 0.99500006
 anchor_bottom = 1.0
 offset_right = 7.999878
+script = ExtResource("3_lpcpv")
 
 [node name="Panel" type="Panel" parent="UI/GamePanel" unique_id=2066633506]
 layout_mode = 1
@@ -79,7 +86,30 @@ offset_top = 800.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="SonarToggle" type="TextureButton" parent="UI/GamePanel/Panel" unique_id=1985081790]
+layout_mode = 0
+offset_left = -24.0
+offset_top = -72.0
+offset_right = 76.0
+offset_bottom = 28.0
+scale = Vector2(2, 2)
+toggle_mode = true
+texture_normal = ExtResource("5_d886v")
+texture_pressed = ExtResource("4_ktv5l")
+texture_click_mask = SubResource("BitMap_34pqb")
+script = ExtResource("6_7ih0r")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/GamePanel/Panel" unique_id=974177097]
+layout_mode = 0
+offset_right = 56.0
+offset_bottom = 32.0
+text = "Sonar"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Camera" type="Control" parent="." unique_id=156723404]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1600.0
@@ -87,6 +117,8 @@ offset_bottom = 900.0
 script = ExtResource("2_3p0gp")
 
 [node name="Camera2D" type="Camera2D" parent="Camera" unique_id=174825865]
+zoom = Vector2(0.5, 0.5)
 
 [connection signal="pressed" from="UI/Menu/BoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="UI/Menu/BoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="toggled" from="UI/GamePanel/Panel/SonarToggle" to="UI/GamePanel" method="_on_sonar_toggle_toggled"]

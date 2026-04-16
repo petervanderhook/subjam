@@ -17,7 +17,6 @@ func load_level():
 	level_scene = preload("res://scenes/Level.tscn")
 	if level_node.get_children().size() > 0:
 		level_node.get_child(0).queue_free()
-	ui_node.clear_ui()
 	var level = level_scene.instantiate()
 	level_node.add_child(level)
 	ui_node.show_game_panel()
@@ -26,6 +25,7 @@ func load_level():
 
 
 func _on_play_pressed() -> void:
+	ui_node.clear_ui()
 	load_level()
 
 

@@ -5,24 +5,28 @@ extends CharacterBody2D
 @export var deceleration := 60.0
 
 @export var sonar_rays := 96
-@export var sonar_range := 650.0
-@export var sonar_speed := 250.0
+@export var sonar_range := 1200.0
+@export var sonar_speed := 600.0
 @export var sonar_duration := 1.2
 @export var sonar_collision_mask := 1
-@export var hit_radius := 6.0
-@export var ring_width := 3.0
+@export var hit_radius := 5.0
+@export var ring_width := 2.0
 @onready var sonar_node = get_tree().get_first_node_in_group("sonar")
+@onready var ping: AudioStreamPlayer2D = $Ping
 
 var sonar_wobble_offset := 0.0
 var sonar_origin := Vector2.ZERO
-var sonar_enabled = true
+var sonar_enabled = false
 var sonar_pulse_active := false
 var sonar_pulse_radius := 0.0
 var sonar_hits := []      # waiting hits for current pulse
 var revealed_hits := []   # visible/fading hits
-
+var sonar_count = 0.0
+var sonar_timer = 3.0
+var current_mode = "normal"
 func _ready():
 	get_parent().get_parent().get_parent().get_parent().camera_node.target = self
+	change_sonar_mode("off")
 
 func _physics_process(delta):
 	## MOVEMENT ##
@@ -47,8 +51,12 @@ func _physics_process(delta):
 	move_and_slide()
 
 	## SONAR ##
-	if sonar_enabled and not sonar_pulse_active:
-		start_sonar_pulse()
+	sonar_count += delta
+	if sonar_count >= sonar_timer:
+		sonar_count -= sonar_timer
+		if sonar_enabled and not sonar_pulse_active:
+			revealed_hits = []
+			start_sonar_pulse()
 	if sonar_pulse_active:
 		sonar_pulse_radius += sonar_speed * delta
 
@@ -80,7 +88,34 @@ func _physics_process(delta):
 			revealed_hits
 		)
 
+func change_sonar_mode(mode):
+	if mode == "off":
+		print("Sonar disabled")
+		sonar_enabled = false
+	if mode == "on":
+		print("Sonar enabled")
+		sonar_count = 3.0
+		sonar_enabled = true
+	if mode == "fast":
+		print("Sonar switched to ", mode)
+		current_mode = mode
+		sonar_speed = 500.0
+		sonar_timer = 1.5
+	if mode == "normal":
+		print("Sonar switched to ", mode)
+		current_mode = mode
+		sonar_speed = 500.0
+		sonar_timer = 3.0
+	if mode == "slow":
+		print("Sonar switched to ", mode)
+		current_mode = mode
+		sonar_speed = 500.0
+		sonar_timer = 4.5
+	
+	
+	
 func start_sonar_pulse():
+	ping.play()
 	sonar_pulse_active = true
 	sonar_pulse_radius = 0.0
 	sonar_hits.clear()

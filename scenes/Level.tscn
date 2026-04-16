@@ -33,10 +33,10 @@ color = Color(0.09985284, 0.09985284, 0.15170373, 1)
 polygon = PackedVector2Array(-1000, -1000, -1000, 30000, 30000, 30000, 30000, -1000)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1746578013]
-color = Color(0.07601618, 0.07599606, 0.11839337, 1)
+color = Color(0.01014077, 0.01013889, 0.020267729, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=679719408]
-scale = Vector2(4, 4)
+scale = Vector2(6, 6)
 tile_set = SubResource("TileSet_6vs76")
 
 [node name="Player" type="Node" parent="." unique_id=604017931]

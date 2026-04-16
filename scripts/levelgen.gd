@@ -18,6 +18,7 @@ const SMOOTH_CYCLES = 4
 @onready var blue_tile = Vector2i(5,0)
 @onready var light_blue_tile = Vector2i(6,0)
 @onready var lighter_blue_tile = Vector2i(7,0)
+@onready var scene_root = get_parent().get_parent()
 
 @onready var player_scene = preload("res://scenes/submarine.tscn")
 
@@ -36,7 +37,6 @@ func _ready():
 	
 	draw_map()
 	
-	
 func _process(_delta):
 	pass
 
@@ -45,7 +45,7 @@ func load_player():
 	var sub = player_scene.instantiate()
 	player_node.add_child(sub)
 	sub.global_position = Vector2i(3000,1500)
-	print(sub, sub.get_parent(), sub.global_position)
+	scene_root.ui_node.game_panel.set_player()
 
 
 func generate_map():
