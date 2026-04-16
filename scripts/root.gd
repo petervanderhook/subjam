@@ -22,6 +22,7 @@ func load_level():
 	level_node.add_child(level)
 	ui_node.show_game_panel()
 	print("regen level")
+	camera_node.global_position = Vector2i(3000,1500)
 
 
 func _on_play_pressed() -> void:

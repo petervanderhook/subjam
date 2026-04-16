@@ -30,9 +30,7 @@ script = ExtResource("1_uhqny")
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_6vs76")
 
-[node name="Player" type="Control" parent="." unique_id=1308407657]
-layout_mode = 3
-anchors_preset = 0
+[node name="Player" type="Node2D" parent="." unique_id=2091006650]
 
 [node name="Areas" type="Control" parent="." unique_id=1590265175]
 layout_mode = 3

@@ -1,0 +1,128 @@
+extends CharacterBody2D
+
+@export var max_speed := 220.0
+@export var acceleration := 120.0
+@export var deceleration := 60.0
+
+@export var sonar_rays := 96
+@export var sonar_range := 650.0
+@export var sonar_speed := 250.0
+@export var sonar_duration := 1.2
+@export var sonar_collision_mask := 1
+@export var hit_radius := 6.0
+@export var ring_width := 3.0
+var sonar_origin := Vector2.ZERO
+var sonar_enabled = true
+var sonar_pulse_active := false
+var sonar_pulse_radius := 0.0
+var sonar_hits := []      # waiting hits for current pulse
+var revealed_hits := []   # visible/fading hits
+
+func _ready():
+	get_parent().get_parent().get_parent().get_parent().camera_node.target = self
+
+func _physics_process(delta):
+	## MOVEMENT ##
+	var input_dir := Vector2.ZERO
+
+	if Input.is_action_pressed("up"):
+		input_dir.y -= 1
+	if Input.is_action_pressed("down"):
+		input_dir.y += 1
+	if Input.is_action_pressed("left"):
+		input_dir.x -= 1
+	if Input.is_action_pressed("right"):
+		input_dir.x += 1
+
+	input_dir = input_dir.normalized()
+
+	if input_dir != Vector2.ZERO:
+		velocity = velocity.move_toward(input_dir * max_speed, acceleration * delta)
+	else:
+		velocity = velocity.move_toward(Vector2.ZERO, deceleration * delta)
+
+	move_and_slide()
+
+	## SONAR ##
+	if sonar_enabled and not sonar_pulse_active:
+		start_sonar_pulse()
+	if sonar_pulse_active:
+		sonar_pulse_radius += sonar_speed * delta
+
+		for hit in sonar_hits:
+			if not hit["revealed"] and sonar_pulse_radius >= hit["distance"]:
+				hit["revealed"] = true
+				revealed_hits.append({
+					"position": hit["position"],
+					"time_left": sonar_duration
+				})
+
+		if sonar_pulse_radius >= sonar_range:
+			sonar_pulse_active = false
+
+	for hit in revealed_hits:
+		hit["time_left"] -= delta
+
+	revealed_hits = revealed_hits.filter(func(h): return h["time_left"] > 0.0)
+
+	queue_redraw()
+
+func start_sonar_pulse():
+	sonar_pulse_active = true
+	sonar_pulse_radius = 0.0
+	sonar_hits.clear()
+	sonar_origin = global_position
+
+	var space_state = get_world_2d().direct_space_state
+
+	for i in range(sonar_rays):
+		var angle = TAU * float(i) / float(sonar_rays)
+		var dir = Vector2.RIGHT.rotated(angle)
+		var from = sonar_origin
+		var to = sonar_origin + dir * sonar_range
+
+		var query = PhysicsRayQueryParameters2D.create(from, to)
+		query.exclude = [get_rid()]
+		query.collision_mask = sonar_collision_mask
+
+		var result = space_state.intersect_ray(query)
+
+		if not result.is_empty():
+			var pos = result["position"]
+			sonar_hits.append({
+				"position": pos,
+				"distance": sonar_origin.distance_to(pos),
+				"revealed": false
+			})
+
+func _draw():
+	# Draw expanding sonar ring
+	if sonar_pulse_active:
+		var dist_ratio = clamp(sonar_pulse_radius / sonar_range, 0.0, 1.0)
+		var alpha = pow(1.0 - dist_ratio, 2.0)
+
+		draw_arc(
+			to_local(sonar_origin),
+			sonar_pulse_radius,
+			0.0,
+			TAU,
+			96,
+			Color(0.4, 1.0, 1.0, alpha),
+			ring_width,
+			true
+		)
+
+	# Draw fading revealed hit circles
+	for hit in revealed_hits:
+		var dist = sonar_origin.distance_to(hit["position"])
+		var dist_ratio = clamp(dist / sonar_range, 0.0, 1.0)
+		var distance_fade = pow(1.0 - dist_ratio, 2.0)
+		var time_fade = hit["time_left"] / sonar_duration
+
+		var alpha = distance_fade * time_fade
+
+		draw_circle(
+			to_local(hit["position"]),
+			hit_radius,
+			Color(0.8, 1.0, 1.0, alpha)
+		)

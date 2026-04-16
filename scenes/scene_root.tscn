@@ -66,27 +66,27 @@ offset_bottom = 40.0
 
 [node name="GamePanel" type="Control" parent="UI" unique_id=170417734]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchor_right = 0.99500006
+anchor_bottom = 1.0
+offset_right = 7.999878
 
 [node name="Panel" type="Panel" parent="UI/GamePanel" unique_id=2066633506]
-layout_mode = 0
-offset_top = 828.0
-offset_right = 1600.0
-offset_bottom = 900.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 800.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Camera" type="Control" parent="." unique_id=156723404]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1152.0
-offset_top = 648.0
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 1600.0
+offset_bottom = 900.0
 script = ExtResource("2_3p0gp")
 
 [node name="Camera2D" type="Camera2D" parent="Camera" unique_id=174825865]
-position = Vector2(-352, -198)
 
 [connection signal="pressed" from="UI/Menu/BoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="UI/Menu/BoxContainer/Options" to="." method="_on_options_pressed"]

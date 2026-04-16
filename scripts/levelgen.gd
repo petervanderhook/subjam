@@ -7,6 +7,7 @@ const CELL_SIZE = 5
 const SMOOTH_CYCLES = 4
 
 @onready var cell_node : TileMapLayer = $TileMapLayer
+@onready var player_node : Control = $Player
 
 @onready var black_tile = Vector2i(0,0)
 @onready var white_tile = Vector2i(1,0)
@@ -17,20 +18,34 @@ const SMOOTH_CYCLES = 4
 @onready var light_blue_tile = Vector2i(6,0)
 @onready var lighter_blue_tile = Vector2i(7,0)
 
+@onready var player_scene = preload("res://scenes/submarine.tscn")
+
 var grid = []
 
 func _ready():
-	generate_map()
-	smooth_map()
-	fill_isolated(50, 0)
-	fill_isolated(50, 1)
+	if FileAccess.file_exists("res://scenes/saved_map.json"):
+		load_map()
+	else:
+		generate_map()
+		smooth_map()
+		fill_isolated(50, 0)
+		fill_isolated(50, 1)
+		save_map()
+	
 	draw_map()
-	#print(grid)
 	
 	
 func _process(_delta):
 	pass
-	
+
+
+func load_player():
+	var sub = player_scene.instantiate()
+	player_node.add_child(sub)
+	sub.global_position = Vector2i(3000,1500)
+	print(sub, sub.get_parent(), sub.global_position)
+
+
 func generate_map():
 	grid.clear()
 	var noise = FastNoiseLite.new()
@@ -53,7 +68,7 @@ func draw_map():
 		for y in range(HEIGHT):
 			var tile_pos = Vector2i(x, y)
 			if grid[x][y] < 0.3:
-				cell_node.set_cell(tile_pos, 0, black_tile)
+				cell_node.set_cell(tile_pos, 0, gray_tile) 
 			else:
 				if y < 90:
 					cell_node.set_cell(tile_pos, 0, lighter_blue_tile)
@@ -116,6 +131,7 @@ func draw_map():
 					
 				else:
 					cell_node.set_cell(tile_pos, 0, darker_blue_tile)
+	load_player()
 
 func smooth_map():
 	for i in range(SMOOTH_CYCLES):
@@ -132,6 +148,36 @@ func smooth_map():
 				else:
 					new_grid[x].append(grid[x][y])
 		grid = new_grid
+
+func save_map():
+	print("SAVING MAP")
+	var path = "res://scenes/saved_map.json"
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("Failed to save map.")
+		return
+	
+	var data = {
+		"width": WIDTH,
+		"height": HEIGHT,
+		"grid": grid
+	}
+	
+	file.store_string(JSON.stringify(data))
+	file.close()
+
+	
+func load_map():
+	print("LOADING MAP")
+	var file = FileAccess.open("res://scenes/saved_map.json", FileAccess.READ)
+	if file == null:
+		push_error("No baked map found.")
+		return
+	
+	var parsed = JSON.parse_string(file.get_as_text())
+	file.close()
+	
+	grid = parsed["grid"]
 
 func fill_isolated(min_size, tile_type):
 	var visited = {}
