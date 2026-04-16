@@ -3,9 +3,18 @@ extends Node2D
 
 const WIDTH = 200
 const HEIGHT = 200
-const CELL_SIZE = 200
+const CELL_SIZE = 5
 
-@onready var cell_node = $Cells
+@onready var cell_node : TileMapLayer = $TileMapLayer
+
+@onready var black_tile = Vector2i(0,0)
+@onready var white_tile = Vector2i(1,0)
+@onready var gray_tile = Vector2i(2,0)
+@onready var darker_blue_tile = Vector2i(3,0)
+@onready var dark_blue_tile = Vector2i(4,0)
+@onready var blue_tile = Vector2i(5,0)
+@onready var light_blue_tile = Vector2i(6,0)
+@onready var lighter_blue_tile = Vector2i(7,0)
 
 var grid = []
 
@@ -54,5 +63,9 @@ func get_neighbour(x, y):
 	return count
 
 func draw_map():
-	
-	pass
+	for x in range(WIDTH):
+		for y in range(HEIGHT):
+			if grid[x][y]:
+				cell_node.set_cell(Vector2i(x, y), 0, gray_tile)
+			elif not grid[x][y]:
+				cell_node.set_cell(Vector2i(x, y), 0, blue_tile)
