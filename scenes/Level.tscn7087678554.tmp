@@ -33,7 +33,7 @@ color = Color(0.09985284, 0.09985284, 0.15170373, 1)
 polygon = PackedVector2Array(-1000, -1000, -1000, 30000, 30000, 30000, 30000, -1000)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1746578013]
-color = Color(0.07601618, 0.07599606, 0.11839337, 1)
+color = Color(0.15170373, 0.15170373, 0.22091639, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=679719408]
 scale = Vector2(4, 4)
@@ -43,7 +43,7 @@ tile_set = SubResource("TileSet_6vs76")
 
 [node name="SonarLayer" type="CanvasLayer" parent="." unique_id=347816448]
 
-[node name="Sonar" type="Node2D" parent="SonarLayer" unique_id=348084851 groups=["sonar"]]
+[node name="Sonar" type="Node2D" parent="SonarLayer" unique_id=348084851]
 script = ExtResource("3_6vs76")
 
 [node name="Areas" type="Control" parent="." unique_id=1590265175]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dvr1vytunetx6" path="res://scripts/root.gd" id="1_3p0gp"]
 [ext_resource type="Script" uid="uid://6rmgl7kiv23k" path="res://scripts/camera.gd" id="2_3p0gp"]
-[ext_resource type="Script" uid="uid://v7uavkltub48" path="res://scenes/ui.gd" id="2_tinwa"]
+[ext_resource type="Script" uid="uid://v7uavkltub48" path="res://scripts/ui.gd" id="2_tinwa"]
 
 [node name="SceneRoot" type="Node2D" unique_id=1510458766]
 script = ExtResource("1_3p0gp")

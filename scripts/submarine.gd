@@ -11,6 +11,9 @@ extends CharacterBody2D
 @export var sonar_collision_mask := 1
 @export var hit_radius := 6.0
 @export var ring_width := 3.0
+@onready var sonar_node = get_tree().get_first_node_in_group("sonar")
+
+var sonar_wobble_offset := 0.0
 var sonar_origin := Vector2.ZERO
 var sonar_enabled = true
 var sonar_pulse_active := false
@@ -64,15 +67,25 @@ func _physics_process(delta):
 		hit["time_left"] -= delta
 
 	revealed_hits = revealed_hits.filter(func(h): return h["time_left"] > 0.0)
-
-	queue_redraw()
+	if sonar_node:
+		sonar_node.set_sonar_state(
+			sonar_origin,
+			sonar_pulse_active,
+			sonar_pulse_radius,
+			sonar_range,
+			sonar_duration,
+			hit_radius,
+			ring_width,
+			sonar_wobble_offset,
+			revealed_hits
+		)
 
 func start_sonar_pulse():
 	sonar_pulse_active = true
 	sonar_pulse_radius = 0.0
 	sonar_hits.clear()
 	sonar_origin = global_position
-
+	sonar_wobble_offset = randf() * TAU
 	var space_state = get_world_2d().direct_space_state
 
 	for i in range(sonar_rays):
@@ -94,35 +107,3 @@ func start_sonar_pulse():
 				"distance": sonar_origin.distance_to(pos),
 				"revealed": false
 			})
-
-func _draw():
-	# Draw expanding sonar ring
-	if sonar_pulse_active:
-		var dist_ratio = clamp(sonar_pulse_radius / sonar_range, 0.0, 1.0)
-		var alpha = pow(1.0 - dist_ratio, 2.0)
-
-		draw_arc(
-			to_local(sonar_origin),
-			sonar_pulse_radius,
-			0.0,
-			TAU,
-			96,
-			Color(0.4, 1.0, 1.0, alpha),
-			ring_width,
-			true
-		)
-
-	# Draw fading revealed hit circles
-	for hit in revealed_hits:
-		var dist = sonar_origin.distance_to(hit["position"])
-		var dist_ratio = clamp(dist / sonar_range, 0.0, 1.0)
-		var distance_fade = pow(1.0 - dist_ratio, 2.0)
-		var time_fade = hit["time_left"] / sonar_duration
-
-		var alpha = distance_fade * time_fade
-
-		draw_circle(
-			to_local(hit["position"]),
-			hit_radius,
-			Color(0.8, 1.0, 1.0, alpha)
-		)

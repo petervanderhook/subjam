@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 
 const WIDTH = 500
@@ -7,7 +7,8 @@ const CELL_SIZE = 5
 const SMOOTH_CYCLES = 4
 
 @onready var cell_node : TileMapLayer = $TileMapLayer
-@onready var player_node : Control = $Player
+@onready var player_node : Node = $Player
+@onready var sonar_node : Node2D = $SonarLayer/Sonar
 
 @onready var black_tile = Vector2i(0,0)
 @onready var white_tile = Vector2i(1,0)
@@ -30,6 +31,7 @@ func _ready():
 		smooth_map()
 		fill_isolated(50, 0)
 		fill_isolated(50, 1)
+		add_border(3)
 		save_map()
 	
 	draw_map()
@@ -235,3 +237,9 @@ func get_wall_neighbours(x, y):
 			elif grid[new_x][new_y] == 0:
 				count += 1
 	return count
+
+func add_border(thickness := 1):
+	for x in range(WIDTH):
+		for y in range(HEIGHT):
+			if x < thickness or x >= WIDTH - thickness or y < thickness or y >= HEIGHT - thickness:
+				grid[x][y] = 0
