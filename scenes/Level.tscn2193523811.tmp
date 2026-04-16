@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cl2qmo7rqx08t"]
+
+[ext_resource type="Script" uid="uid://c47d5716jko3l" path="res://scripts/levelgen.gd" id="1_uhqny"]
+
+[node name="Level" type="Node2D" unique_id=1153965306]
+script = ExtResource("1_uhqny")
+
+[node name="Cells" type="Control" parent="." unique_id=1513864487]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

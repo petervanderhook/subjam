@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cl2qmo7rqx08t"]
+
+[ext_resource type="Script" uid="uid://c47d5716jko3l" path="res://scripts/levelgen.gd" id="1_uhqny"]
+[ext_resource type="Texture2D" uid="uid://da1irf5ros2ph" path="res://textures/cell_atlas.png" id="2_k5jlv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k5jlv"]
+texture = ExtResource("2_k5jlv")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_6vs76"]
+tile_size = Vector2i(20, 20)
+sources/0 = SubResource("TileSetAtlasSource_k5jlv")
+
+[node name="Level" type="Node2D" unique_id=1153965306]
+script = ExtResource("1_uhqny")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=679719408]
+tile_set = SubResource("TileSet_6vs76")

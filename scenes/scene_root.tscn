@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://c1mcpb61yvowc"]
+
+[ext_resource type="PackedScene" uid="uid://cl2qmo7rqx08t" path="res://scenes/Level.tscn" id="1_3v20e"]
+[ext_resource type="Script" uid="uid://6rmgl7kiv23k" path="res://scripts/camera.gd" id="2_3p0gp"]
+
+[node name="SceneRoot" type="Node2D" unique_id=1510458766]
+
+[node name="Level" type="Control" parent="." unique_id=125486679]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Level" parent="Level" unique_id=1153965306 instance=ExtResource("1_3v20e")]
+
+[node name="UI" type="Control" parent="." unique_id=1331545817]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Menu" type="Control" parent="UI" unique_id=354010916]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Options" type="Control" parent="UI" unique_id=1983912127]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GamePanel" type="Control" parent="UI" unique_id=170417734]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Camera" type="Control" parent="." unique_id=156723404]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Camera2D" type="Camera2D" parent="Camera" unique_id=174825865]
+script = ExtResource("2_3p0gp")
