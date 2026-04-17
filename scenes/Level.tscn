@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://c47d5716jko3l" path="res://scripts/levelgen.gd" id="1_uhqny"]
 [ext_resource type="Texture2D" uid="uid://da1irf5ros2ph" path="res://textures/cell_atlas.png" id="2_k5jlv"]
 [ext_resource type="Script" uid="uid://bne5bool60o2d" path="res://scripts/sonar.gd" id="3_6vs76"]
+[ext_resource type="PackedScene" uid="uid://dd48i3t55ql5u" path="res://scenes/station.tscn" id="4_kl8ac"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_kl8ac"]
+polygon = PackedVector2Array(0, -20, -20, -10, -20, 10, 0, 20, 20, 10, 20, -10)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k5jlv"]
 texture = ExtResource("2_k5jlv")
@@ -10,6 +14,7 @@ texture_region_size = Vector2i(40, 40)
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
+2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_kl8ac")
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -20, -20, -10, -20, 10, 0, 20, 20, 10, 20, -10)
 3:0/0 = 0
 4:0/0 = 0
@@ -20,11 +25,12 @@ texture_region_size = Vector2i(40, 40)
 [sub_resource type="TileSet" id="TileSet_6vs76"]
 tile_shape = 3
 tile_size = Vector2i(40, 40)
-physics_layer_0/collision_layer = 1
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 9
 physics_layer_0/collision_mask = 255
 sources/0 = SubResource("TileSetAtlasSource_k5jlv")
 
-[node name="Level" type="Node" unique_id=1008471360]
+[node name="Level" type="Node" unique_id=1008471360 groups=["level"]]
 script = ExtResource("1_uhqny")
 
 [node name="Background" type="Polygon2D" parent="." unique_id=91511984]
@@ -39,7 +45,7 @@ color = Color(0.01014077, 0.01013889, 0.020267729, 1)
 scale = Vector2(6, 6)
 tile_set = SubResource("TileSet_6vs76")
 
-[node name="Player" type="Node" parent="." unique_id=604017931]
+[node name="Player" type="Node2D" parent="." unique_id=131683165]
 
 [node name="SonarLayer" type="CanvasLayer" parent="." unique_id=347816448]
 
@@ -57,3 +63,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Stations" type="Node2D" parent="." unique_id=1452572883]
+
+[node name="Station1" parent="Stations" unique_id=1025980685 instance=ExtResource("4_kl8ac")]
+position = Vector2(3720, 1568)

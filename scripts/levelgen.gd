@@ -7,7 +7,7 @@ const CELL_SIZE = 5
 const SMOOTH_CYCLES = 4
 
 @onready var cell_node : TileMapLayer = $TileMapLayer
-@onready var player_node : Node = $Player
+@onready var player_node : Node2D = $Player
 @onready var sonar_node : Node2D = $SonarLayer/Sonar
 
 @onready var black_tile = Vector2i(0,0)
@@ -19,9 +19,10 @@ const SMOOTH_CYCLES = 4
 @onready var light_blue_tile = Vector2i(6,0)
 @onready var lighter_blue_tile = Vector2i(7,0)
 @onready var scene_root = get_parent().get_parent()
-
+@onready var tile_map_layer = $TileMapLayer
 @onready var player_scene = preload("res://scenes/submarine.tscn")
-
+@onready var stations_node = $Stations
+var assembled_truss = false
 var grid = []
 
 func _ready():
@@ -36,18 +37,24 @@ func _ready():
 		save_map()
 	
 	draw_map()
-	
 func _process(_delta):
-	pass
+	if not assembled_truss:
+		assembled_truss = true
+		build_all_station_truss()
 
 
 func load_player():
 	var sub = player_scene.instantiate()
 	player_node.add_child(sub)
 	sub.global_position = Vector2i(3000,1500)
-	scene_root.ui_node.game_panel.set_player()
+	sub.set_sonar_node(sonar_node)
+	scene_root.ui_node.game_panel.set_player(sub)
 
 
+func build_all_station_truss():
+	for station in stations_node.get_children():
+		station.build_truss()
+		
 func generate_map():
 	grid.clear()
 	var noise = FastNoiseLite.new()
@@ -64,7 +71,7 @@ func generate_map():
 				grid[x].append(0)
 			else:
 				grid[x].append(1)
-
+	
 func draw_map():
 	for x in range(WIDTH):
 		for y in range(HEIGHT):
@@ -134,6 +141,7 @@ func draw_map():
 				else:
 					cell_node.set_cell(tile_pos, 0, darker_blue_tile)
 	load_player()
+	print("Loading player")
 
 func smooth_map():
 	for i in range(SMOOTH_CYCLES):

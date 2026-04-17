@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://dd48i3t55ql5u"]
+
+[ext_resource type="Script" uid="uid://df0m4k1uocfav" path="res://scripts/station.gd" id="1_7hcop"]
+[ext_resource type="Texture2D" uid="uid://wl2neyaiubqp" path="res://textures/station/station.png" id="1_rod8h"]
+[ext_resource type="Texture2D" uid="uid://d0lewd4yds8wq" path="res://textures/station/station_lightmap.png" id="2_0r0hh"]
+[ext_resource type="Texture2D" uid="uid://b6qgoafjusg30" path="res://textures/station/station_aura_lightmap.png" id="3_rvx7u"]
+[ext_resource type="Texture2D" uid="uid://b62mrkxpvabs1" path="res://textures/light.png" id="4_csis4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0r0hh"]
+size = Vector2(116, 112)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7hcop"]
+polygon = PackedVector2Array(-48, -100, -68, -88, -76, -72, -76, -52, -80, -52, -80, -40, -132, -40, -144, -28, -144, -8, -136, 4, -68, 12, -68, 24, -64, 44, -40, 48, -36, 60, -36, 84, 4, 88, 16, 92, 36, 96, 116, 92, 116, 52, 128, 40, 132, 24, 132, -4, 124, -20, 132, -48, 124, -52, 68, -52, 64, -48, 64, -40, 16, -40, 20, -44, 20, -52, 16, -52, 16, -72, 4, -88, -8, -100)
+
+[node name="Station" type="Node2D" unique_id=1025980685]
+scale = Vector2(2, 2)
+script = ExtResource("1_7hcop")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=557828532]
+texture = ExtResource("1_rod8h")
+
+[node name="Lights" type="Node2D" parent="." unique_id=1845746215]
+
+[node name="WindowLights" type="PointLight2D" parent="Lights" unique_id=2008565252]
+position = Vector2(-56, -48)
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("2_0r0hh")
+
+[node name="CloseAura" type="PointLight2D" parent="Lights" unique_id=413072559]
+position = Vector2(32, 8)
+energy = 0.6
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("3_rvx7u")
+
+[node name="WideAura" type="PointLight2D" parent="Lights" unique_id=36890148]
+position = Vector2(24, 8)
+scale = Vector2(4, 4)
+energy = 0.3
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("3_rvx7u")
+
+[node name="LightDownLeft" type="PointLight2D" parent="Lights" unique_id=1516396542]
+position = Vector2(16, 88)
+rotation = -0.5235988
+scale = Vector2(0.5, 0.5)
+energy = 0.3
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("4_csis4")
+
+[node name="LightDownRight" type="PointLight2D" parent="Lights" unique_id=757092480]
+position = Vector2(112.000015, 80.00001)
+rotation = 3.6651917
+scale = Vector2(0.5, 0.5)
+energy = 0.3
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("4_csis4")
+
+[node name="LightUpLeft" type="PointLight2D" parent="Lights" unique_id=352821526]
+position = Vector2(-72, -40.000008)
+rotation = 0.52359885
+scale = Vector2(0.5, 0.5)
+energy = 0.3
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("4_csis4")
+
+[node name="LightUpRight" type="PointLight2D" parent="Lights" unique_id=2129580606]
+position = Vector2(120, -58.666664)
+rotation = 2.6179938
+scale = Vector2(0.5, 0.5)
+energy = 0.3
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("4_csis4")
+
+[node name="DockArea" type="Area2D" parent="." unique_id=654426507]
+
+[node name="DockCollision" type="CollisionShape2D" parent="DockArea" unique_id=1444441997]
+position = Vector2(-192, -16)
+shape = SubResource("RectangleShape2D_0r0hh")
+
+[node name="TrussRoot" type="Node2D" parent="." unique_id=869226475]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=921034343]
+modulate = Color(0, 0, 0, 1)
+light_mask = 8
+occluder = SubResource("OccluderPolygon2D_7hcop")
+occluder_light_mask = 8
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=548198689]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=1328765262]
+visible = false
+polygon = PackedVector2Array(-144, -16, -136, -40, -80, -40, -80, -80, -48, -96, -8, -96, 16, -72, 18.666668, -40, 64, -40, 64, -50.666668, 82.66667, -58.666668, 85.333336, -90.66667, 88, -58.666668, 96, -58.666668, 98.66667, -96, 101.333336, -56, 106.66667, -56, 109.333336, -72, 112, -56, 133.33334, -48, 133.33334, 26.666668, 117.333336, 53.333336, 114.66667, 93.333336, 16, 93.333336, -13.333334, 88, -34.666668, 82.66667, -37.333336, 50.666668, -45.333336, 48, -45.333336, 72, -64, 72, -61.333336, 45.333336, -72, 10.666667, -136, 8)
+
+[node name="TrussMarkers" type="Node2D" parent="." unique_id=1755923783]
+
+[node name="TrussStart" type="Node2D" parent="TrussMarkers" unique_id=1420506695]
+position = Vector2(-20, 88)
+
+[node name="TrussStart2" type="Node2D" parent="TrussMarkers" unique_id=1924772084]
+position = Vector2(92, 92)

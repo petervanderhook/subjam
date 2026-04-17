@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b5okllmud87ox" path="res://scripts/submarine.gd" id="1_gua2t"]
 [ext_resource type="Texture2D" uid="uid://783ojpg3y142" path="res://textures/aura.png" id="2_cjhfg"]
 [ext_resource type="Texture2D" uid="uid://b62mrkxpvabs1" path="res://textures/light.png" id="2_r3h5y"]
+[ext_resource type="Script" uid="uid://cihkdatanfx8q" path="res://scripts/gun_light.gd" id="4_m734x"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5l73g"]
 radius = 15.0
@@ -36,6 +37,8 @@ texture = SubResource("GradientTexture1D_gua2t")
 
 [node name="LightAura" type="PointLight2D" parent="." unique_id=1574650777]
 energy = 0.2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
 texture = ExtResource("2_cjhfg")
 texture_scale = 0.5
 
@@ -46,7 +49,10 @@ texture_scale = 0.5
 [node name="PointLight2D" type="PointLight2D" parent="Components/LightLeft" unique_id=538009319]
 position = Vector2(32, -9)
 rotation = 3.1415927
+enabled = false
 energy = 0.5
+shadow_enabled = true
+shadow_item_cull_mask = 9
 texture = ExtResource("2_r3h5y")
 texture_scale = 0.25
 
@@ -54,13 +60,40 @@ texture_scale = 0.25
 
 [node name="PointLight2D" type="PointLight2D" parent="Components/LightRight" unique_id=388856172]
 position = Vector2(-35, -9)
+enabled = false
 energy = 0.5
+shadow_enabled = true
+shadow_item_cull_mask = 9
 texture = ExtResource("2_r3h5y")
 texture_scale = 0.25
 
 [node name="Gun1" type="Node2D" parent="Components" unique_id=287220354]
+position = Vector2(-22, 0)
+
+[node name="GunLight" type="PointLight2D" parent="Components/Gun1" unique_id=1667696937]
+scale = Vector2(1, 0.5)
+enabled = false
+energy = 0.5
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_item_cull_mask = 9
+texture = ExtResource("2_r3h5y")
+script = ExtResource("4_m734x")
+left_gun = true
 
 [node name="Gun2" type="Node2D" parent="Components" unique_id=580287273]
+position = Vector2(21, 0)
+
+[node name="GunLight" type="PointLight2D" parent="Components/Gun2" unique_id=317790481]
+scale = Vector2(1, 0.5)
+enabled = false
+energy = 0.5
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_item_cull_mask = 9
+texture = ExtResource("2_r3h5y")
+script = ExtResource("4_m734x")
+right_gun = true
 
 [node name="Engine" type="Node2D" parent="Components" unique_id=481388456]
 

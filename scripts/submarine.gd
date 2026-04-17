@@ -6,13 +6,16 @@ extends CharacterBody2D
 
 @export var sonar_rays := 96
 @export var sonar_range := 1200.0
-@export var sonar_speed := 600.0
+@export var sonar_speed := 800.0
 @export var sonar_duration := 1.2
 @export var sonar_collision_mask := 1
 @export var hit_radius := 5.0
 @export var ring_width := 2.0
-@onready var sonar_node = get_tree().get_first_node_in_group("sonar")
+@onready var sonar_node = null
 @onready var ping: AudioStreamPlayer2D = $Ping
+
+@onready var light_left = $Components/LightLeft/PointLight2D
+@onready var light_right = $Components/LightRight/PointLight2D
 
 var sonar_wobble_offset := 0.0
 var sonar_origin := Vector2.ZERO
@@ -24,11 +27,30 @@ var revealed_hits := []   # visible/fading hits
 var sonar_count = 0.0
 var sonar_timer = 3.0
 var current_mode = "normal"
+var scene_root = null
+var battery_bar = null
+
+var left_light_enabled = false
+var right_light_enabled = false
+
+var light_timer = 0.0
+
 func _ready():
-	get_parent().get_parent().get_parent().get_parent().camera_node.target = self
+	scene_root = get_parent().get_parent().get_parent().get_parent()
+	battery_bar = scene_root.ui_node.game_panel.battery_bar
+	scene_root.camera_node.target = self
 	change_sonar_mode("off")
 
 func _physics_process(delta):
+	## LIGHTS (Power Draw)
+	light_timer += delta
+	if light_timer > 3.0:
+		light_timer = 0.0
+		if left_light_enabled:
+			battery_bar.draw_power(0.25)
+		if right_light_enabled:
+			battery_bar.draw_power(0.25)
+	
 	## MOVEMENT ##
 	var input_dir := Vector2.ZERO
 
@@ -53,7 +75,7 @@ func _physics_process(delta):
 	## SONAR ##
 	sonar_count += delta
 	if sonar_count >= sonar_timer:
-		sonar_count -= sonar_timer
+		sonar_count = 0.0
 		if sonar_enabled and not sonar_pulse_active:
 			revealed_hits = []
 			start_sonar_pulse()
@@ -88,33 +110,44 @@ func _physics_process(delta):
 			revealed_hits
 		)
 
+func set_sonar_node(node):
+	sonar_node = node
+func set_light(light, toggled):
+	if light == "left":
+		light_left.enabled = toggled
+		left_light_enabled = toggled
+	if light == "right":
+		light_right.enabled = toggled
+		right_light_enabled = toggled
+
 func change_sonar_mode(mode):
 	if mode == "off":
 		print("Sonar disabled")
 		sonar_enabled = false
 	if mode == "on":
 		print("Sonar enabled")
-		sonar_count = 3.0
+		sonar_count = 4.0
 		sonar_enabled = true
 	if mode == "fast":
 		print("Sonar switched to ", mode)
 		current_mode = mode
-		sonar_speed = 500.0
+		sonar_speed = 800.0
 		sonar_timer = 1.5
 	if mode == "normal":
 		print("Sonar switched to ", mode)
 		current_mode = mode
-		sonar_speed = 500.0
-		sonar_timer = 3.0
+		sonar_speed = 800.0
+		sonar_timer = 2.5
 	if mode == "slow":
 		print("Sonar switched to ", mode)
 		current_mode = mode
-		sonar_speed = 500.0
-		sonar_timer = 4.5
+		sonar_speed = 800.0
+		sonar_timer = 4.0
 	
 	
 	
 func start_sonar_pulse():
+	battery_bar.draw_power(0.5)
 	ping.play()
 	sonar_pulse_active = true
 	sonar_pulse_radius = 0.0
