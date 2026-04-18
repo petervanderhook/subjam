@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bhl3n71ug1kt7"]
 
-[ext_resource type="PackedScene" uid="uid://b3eaoy0e01yo1" path="res://scenes/submarine.tscn" id="1_bl13t"]
-[ext_resource type="PackedScene" uid="uid://dd48i3t55ql5u" path="res://scenes/station.tscn" id="2_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://b3eaoy0e01yo1" path="res://scenes/sub_player/submarine.tscn" id="1_bl13t"]
+[ext_resource type="PackedScene" uid="uid://dd48i3t55ql5u" path="res://scenes/station/station.tscn" id="2_iyx0m"]
 
 [node name="Node2D" type="Node2D" unique_id=935480455]
 

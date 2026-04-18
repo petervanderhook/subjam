@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://cl2qmo7rqx08t"]
+
+[ext_resource type="Script" uid="uid://c47d5716jko3l" path="res://scenes/world/level.gd" id="1_ly3lj"]
+[ext_resource type="Texture2D" uid="uid://da1irf5ros2ph" path="res://interface/tilemap/cell_atlas.png" id="2_356sj"]
+[ext_resource type="Script" uid="uid://bne5bool60o2d" path="res://interface/sonar/sonar.gd" id="3_msyow"]
+[ext_resource type="PackedScene" uid="uid://dd48i3t55ql5u" path="res://scenes/station/station.tscn" id="4_3v4r2"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_kl8ac"]
+polygon = PackedVector2Array(0, -21.117313, -20, -10, -20, 10, 0.10152531, 21.015789, 20, 10, 20, -10)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k5jlv"]
+texture = ExtResource("2_356sj")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_kl8ac")
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -20, -20, -10, -20, 10, 0, 20, 20, 10, 20, -10)
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_6vs76"]
+tile_shape = 3
+tile_size = Vector2i(40, 40)
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 9
+physics_layer_0/collision_mask = 255
+sources/0 = SubResource("TileSetAtlasSource_k5jlv")
+
+[node name="Level" type="Node" unique_id=1008471360 groups=["level"]]
+script = ExtResource("1_ly3lj")
+
+[node name="Background" type="Polygon2D" parent="." unique_id=91511984]
+z_index = -100
+color = Color(0.09985284, 0.09985284, 0.15170373, 1)
+polygon = PackedVector2Array(-1000, -1000, -1000, 30000, 30000, 30000, 30000, -1000)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1746578013]
+color = Color(0.01014077, 0.01013889, 0.020267729, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=679719408]
+scale = Vector2(6, 6)
+tile_set = SubResource("TileSet_6vs76")
+
+[node name="Player" type="Node2D" parent="." unique_id=131683165]
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=37812475]
+
+[node name="SonarLayer" type="CanvasLayer" parent="." unique_id=347816448]
+
+[node name="Sonar" type="Node2D" parent="SonarLayer" unique_id=348084851 groups=["sonar"]]
+script = ExtResource("3_msyow")
+
+[node name="Areas" type="Control" parent="." unique_id=1590265175]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Mobs" type="Control" parent="." unique_id=1738172874]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Stations" type="Node2D" parent="." unique_id=1452572883]
+
+[node name="Station1" parent="Stations" unique_id=1025980685 instance=ExtResource("4_3v4r2")]
+position = Vector2(3720, 1568)
