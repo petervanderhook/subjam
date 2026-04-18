@@ -20,7 +20,7 @@ extends CharacterBody2D
 @onready var gun1_sound = $Components/Gun1/Shoot
 @onready var gun2 = $Components/Gun2/GunLight
 @onready var gun2_sound = $Components/Gun2/Shoot
-
+@onready var sub_sprite_base = $Sprites/SubSpriteBase
 
 var sonar_wobble_offset := 0.0
 var sonar_origin := Vector2.ZERO
@@ -49,6 +49,11 @@ func _ready():
 	set_gun('gun2', 'auto')
 
 func _physics_process(delta):
+	if velocity.x < 0:
+		sub_sprite_base.flip_h = true
+	else:
+		sub_sprite_base.flip_h = false
+		
 	## LIGHTS (Power Draw)
 	light_timer += delta
 	if light_timer > 3.0:

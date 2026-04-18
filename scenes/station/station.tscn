@@ -87,12 +87,14 @@ shape = SubResource("RectangleShape2D_0r0hh")
 [node name="TrussRoot" type="Node2D" parent="." unique_id=869226475]
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=921034343]
+visible = false
 modulate = Color(0, 0, 0, 1)
 light_mask = 8
 occluder = SubResource("OccluderPolygon2D_7hcop")
 occluder_light_mask = 8
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=548198689]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=1328765262]
 visible = false

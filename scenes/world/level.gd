@@ -1,3 +1,4 @@
+@tool
 extends Node
 
 
@@ -25,8 +26,17 @@ const SMOOTH_CYCLES = 4
 var assembled_truss = false
 var grid = []
 
-func _ready():
-	
+@export var preview_map_in_editor := false:
+	set(value):
+		if not Engine.is_editor_hint():
+			return
+		if not value:
+			return
+
+		preview_map_in_editor = false
+		rebuild_editor_preview()
+
+func rebuild_editor_preview() -> void:
 	if FileAccess.file_exists("res://scenes/world/saved_map.json"):
 		load_map()
 	else:
@@ -35,9 +45,26 @@ func _ready():
 		fill_isolated(50, 0)
 		fill_isolated(50, 1)
 		add_border(3)
-		save_map()
-	
+
+	$TileMapLayer.clear()
 	draw_map()
+	
+func _ready():
+	#if FileAccess.file_exists("res://scenes/world/saved_map.json"):
+		#load_map()
+	#else:
+		#generate_map()
+		#smooth_map()
+		#fill_isolated(50, 0)
+		#fill_isolated(50, 1)
+		#add_border(3)
+		#save_map()
+	
+	#draw_map()
+	print("Loading player")
+	load_player()
+	
+	
 func _process(_delta):
 	if not assembled_truss:
 		assembled_truss = true
@@ -141,8 +168,6 @@ func draw_map():
 					
 				else:
 					cell_node.set_cell(tile_pos, 0, darker_blue_tile)
-	load_player()
-	print("Loading player")
 
 func smooth_map():
 	for i in range(SMOOTH_CYCLES):

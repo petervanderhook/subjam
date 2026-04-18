@@ -11,8 +11,6 @@ var right_enabled = false
 @export var right_gun = false
 @onready var level_node = get_tree().get_first_node_in_group("level")
 @onready var scene_root = get_tree().get_first_node_in_group("scene_root")
-
-
 @onready var bullet = preload("res://scenes/bullet/bullet.tscn")
 @export var gun_type = "none"
 
