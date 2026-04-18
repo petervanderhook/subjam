@@ -26,6 +26,7 @@ var assembled_truss = false
 var grid = []
 
 func _ready():
+	
 	if FileAccess.file_exists("res://scenes/world/saved_map.json"):
 		load_map()
 	else:

@@ -1,17 +1,18 @@
 extends Area2D
 
-@export var speed := 1000.0
+@export var speed := 1400.0
 @export var max_trail_points := 12
 @export var trail_point_spacing := 6.0
 @export var wake_spawn_interval := 0.02
-@export var wake_lifetime := 0.18
+@export var wake_lifetime := 1.38
 @onready var bullet_impact = preload("res://scenes/bullet/impact.tscn")
-
+@export var max_trail_length := 100.0
+@export var trail_growth_speed := 200.0
 var direction := Vector2.RIGHT
 var trail_points: Array[Vector2] = []
 var wakes: Array = []
 var wake_timer := 0.0
-
+var trail_length := 0.0
 func _ready() -> void:
 	top_level = true
 	trail_points.append(global_position)
@@ -19,13 +20,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
 	rotation = direction.angle()
-
+	
 	if trail_points.is_empty() or global_position.distance_to(trail_points[trail_points.size() - 1]) >= trail_point_spacing:
 		trail_points.append(global_position)
 
 	if trail_points.size() > max_trail_points:
 		trail_points.pop_front()
-
+	trail_length = min(max_trail_length, trail_length + trail_growth_speed * delta)
 	wake_timer += delta
 	if wake_timer >= wake_spawn_interval:
 		wake_timer = 0.0
@@ -50,10 +51,10 @@ func spawn_wake() -> void:
 
 	var jitter := Vector2(randf_range(-2.0, 2.0), randf_range(-2.0, 2.0))
 	var base_pos := global_position - dir * 8.0 + jitter
-
+	var rand_ranger = randf_range(0.05, 0.25)
 	wakes.append({
 		"pos": base_pos,
-		"vel": (normal * 0.15 + back * 1.0).normalized() * randf_range(140.0, 180.0),
+		"vel": (normal * rand_ranger + back * 1.0).normalized() * randf_range(140.0, 180.0),
 		"life": randf_range(wake_lifetime * 0.8, wake_lifetime * 1.2),
 		"age": 0.0,
 		"length": 20.0,
@@ -61,24 +62,18 @@ func spawn_wake() -> void:
 
 	wakes.append({
 		"pos": base_pos,
-		"vel": (-normal * 0.15 + back * 1.0).normalized() * randf_range(140.0, 180.0),
+		"vel": (-normal * rand_ranger + back * 1.0).normalized() * randf_range(140.0, 180.0),
 		"life": randf_range(wake_lifetime * 0.8, wake_lifetime * 1.2),
 		"age": 0.0,
 		"length": 20.0,
 	})
 
 func _draw() -> void:
-	if trail_points.size() >= 2:
-		for i in range(trail_points.size() - 1):
-			var p1 = to_local(trail_points[i])
-			var p2 = to_local(trail_points[i + 1])
+	# center glow trail, in local bullet space
+	draw_line(Vector2.ZERO, Vector2.LEFT * trail_length, Color(0.4, 0.7, 1.0, 0.20), 5.0, true)
+	draw_line(Vector2.ZERO, Vector2.LEFT * (trail_length * 0.5), Color(0.7, 0.9, 1.0, 0.30), 2.0, true)
 
-			var t = float(i + 1) / float(trail_points.size())
-			var alpha = t * 0.35
-			var width = max(1.0, t * 5.0)
-
-			draw_line(p1, p2, Color(0.4, 0.7, 1.0, alpha), width, true)
-
+	# diagonal wakes
 	for w in wakes:
 		var alpha = 1.0 - (w["age"] / w["life"])
 		var dir = w["vel"].normalized()
@@ -88,6 +83,7 @@ func _draw() -> void:
 
 		draw_line(p1, p2, Color(0.85, 0.95, 1.0, alpha * 0.35), 1.2, true)
 
+	# bullet body / glow
 	draw_circle(Vector2.ZERO, 3.0, Color(1.0, 0.9, 0.2, 1.0))
 	draw_circle(Vector2.ZERO, 7.0, Color(1.0, 0.9, 0.2, 0.12))
 

@@ -10,6 +10,7 @@ var right_enabled = false
 @export var left_gun = false
 @export var right_gun = false
 @onready var level_node = get_tree().get_first_node_in_group("level")
+@onready var scene_root = get_tree().get_first_node_in_group("scene_root")
 
 
 @onready var bullet = preload("res://scenes/bullet/bullet.tscn")
@@ -23,14 +24,15 @@ var proj_dict = {
 }
 
 func _ready():
-	pass
+	scene_root = get_tree().get_first_node_in_group("scene_root")
+	level_node = get_tree().get_first_node_in_group("level")
 	
 
 func _physics_process(delta: float) -> void:
 	timer += delta
 	if left_gun:
 		## LEFT CLICK
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and (get_viewport().get_mouse_position().y <= 800):
 			left_held_timer += delta
 			left_enabled = true
 			look_at(get_global_mouse_position())
@@ -47,7 +49,7 @@ func _physics_process(delta: float) -> void:
 			
 	if right_gun:
 		## RIGHT CLICK
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and (get_viewport().get_mouse_position().y <= 800):
 			right_held_timer += delta
 			right_enabled = true
 			look_at(get_global_mouse_position())
@@ -63,7 +65,7 @@ func _physics_process(delta: float) -> void:
 			get_parent().get_parent().get_parent().battery_bar.draw_power(0.1)
 	
 	## MIDDLE CLICK
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE) and (get_viewport().get_mouse_position().y <= 800):
 		middle_held_timer += delta
 		middle_enabled = true
 		look_at(get_global_mouse_position())
@@ -96,4 +98,6 @@ func shoot_gun():
 				var dir = (get_global_mouse_position() - new_bullet.global_position).normalized()
 				new_bullet.direction = dir
 				new_bullet.rotation = dir.angle()
+				get_parent().get_child(1).pitch_scale = randf_range(0.5, 1.5)
 				get_parent().get_child(1).playing = true
+				scene_root.camera_node.shake(5.0)

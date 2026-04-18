@@ -20,7 +20,7 @@
 
 [sub_resource type="BitMap" id="BitMap_34pqb"]
 
-[node name="SceneRoot" type="Node2D" unique_id=1510458766]
+[node name="SceneRoot" type="Node2D" unique_id=1510458766 groups=["scene_root"]]
 script = ExtResource("1_3p0gp")
 
 [node name="Level" type="Control" parent="." unique_id=125486679]
