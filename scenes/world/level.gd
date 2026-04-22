@@ -23,6 +23,9 @@ const SMOOTH_CYCLES = 4
 @onready var tile_map_layer = $TileMapLayer
 @onready var player_scene = preload("res://scenes/sub_player/submarine.tscn")
 @onready var stations_node = $Stations
+
+@onready var canvas_mod = $CanvasModulate
+@onready var backdrop = $Background
 var assembled_truss = false
 var grid = []
 
@@ -50,6 +53,8 @@ func rebuild_editor_preview() -> void:
 	draw_map()
 	
 func _ready():
+	canvas_mod.visible = true
+	backdrop.visible = true
 	#if FileAccess.file_exists("res://scenes/world/saved_map.json"):
 		#load_map()
 	#else:

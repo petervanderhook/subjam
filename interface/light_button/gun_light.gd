@@ -11,7 +11,7 @@ var right_enabled = false
 @export var right_gun = false
 @onready var level_node = get_tree().get_first_node_in_group("level")
 @onready var scene_root = get_tree().get_first_node_in_group("scene_root")
-@onready var bullet = preload("res://scenes/bullet/bullet.tscn")
+@onready var bullet = preload("res://scenes/player_bullet/bullet.tscn")
 @export var gun_type = "none"
 
 var shoot_speed = 0.0
@@ -22,10 +22,12 @@ var proj_dict = {
 }
 
 func _ready():
+	set_scenes()
+	
+func set_scenes():
 	scene_root = get_tree().get_first_node_in_group("scene_root")
 	level_node = get_tree().get_first_node_in_group("level")
 	
-
 func _physics_process(delta: float) -> void:
 	timer += delta
 	if left_gun:
@@ -84,6 +86,8 @@ func _physics_process(delta: float) -> void:
 
 
 func shoot_gun():
+	if level_node == null:
+		set_scenes()
 	if gun_type != 'none':
 		if projectile_scene == "bullet":
 			if (left_held_timer > shoot_speed) or (right_held_timer > shoot_speed):

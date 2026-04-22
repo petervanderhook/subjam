@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cse8o8f2h5i2l"
-path="res://.godot/imported/bullet.png-07ca13fd8cb848f7a4564a19ebae79bf.ctex"
+uid="uid://c31l5p6pmsvqk"
+path="res://.godot/imported/Ramfish.png-c40cd59a790f19206bd248517227f811.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/bullet/bullet.png"
-dest_files=["res://.godot/imported/bullet.png-07ca13fd8cb848f7a4564a19ebae79bf.ctex"]
+source_file="res://scenes/enemies/ramfish/Ramfish.png"
+dest_files=["res://.godot/imported/Ramfish.png-c40cd59a790f19206bd248517227f811.ctex"]
 
 [params]
 

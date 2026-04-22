@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c51t2q4v2pcss"]
+
+[ext_resource type="Texture2D" uid="uid://obgl8ctf5r2u" path="res://scenes/particles/blood/blood.png" id="1_ivkke"]
+[ext_resource type="Script" uid="uid://jxas6yj5tmjr" path="res://scenes/particles/blood/blood.gd" id="2_xps3y"]
+
+[sub_resource type="Gradient" id="Gradient_ivkke"]
+offsets = PackedFloat32Array(0.0049261083, 0.4827586, 0.9211823)
+colors = PackedColorArray(1, 1, 1, 0.337, 1, 1, 1, 1, 0, 0, 0, 0.337)
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=371947473]
+amount = 24
+texture = ExtResource("1_ivkke")
+lifetime = 2.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 24.0
+initial_velocity_max = 24.0
+radial_accel_min = 8.75
+radial_accel_max = 8.75
+color = Color(1, 1, 1, 0.24100001)
+color_ramp = SubResource("Gradient_ivkke")
+script = ExtResource("2_xps3y")

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cdoad88x56cr1"]
+
+[ext_resource type="Script" uid="uid://bns824bmbvqpa" path="res://interface/hitsplat/hitsplat.gd" id="1_tr16k"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tr16k"]
+light_mode = 1
+
+[node name="Hitsplat" type="Control" unique_id=177815665]
+top_level = true
+light_mask = 0
+z_index = 1000
+layout_mode = 3
+anchors_preset = 0
+scale = Vector2(20, 20)
+script = ExtResource("1_tr16k")
+
+[node name="Label" type="RichTextLabel" parent="." unique_id=1341601814]
+z_index = 4096
+material = SubResource("CanvasItemMaterial_tr16k")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+scale = Vector2(2, 2)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/selection_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/table_odd_row_bg = Color(1, 1, 1, 1)
+theme_override_colors/table_even_row_bg = Color(1, 1, 1, 1)
+theme_override_colors/table_border = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+text = "Test"

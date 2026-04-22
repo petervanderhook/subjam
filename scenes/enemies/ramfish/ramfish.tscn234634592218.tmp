@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://dr3v1acklmv8k"]
+
+[ext_resource type="Script" uid="uid://mow76ujovdq4" path="res://scenes/enemies/ramfish/ramfish.gd" id="1_5dcl4"]
+[ext_resource type="Texture2D" uid="uid://c31l5p6pmsvqk" path="res://scenes/enemies/ramfish/Ramfish.png" id="1_wj822"]
+[ext_resource type="PackedScene" uid="uid://c51t2q4v2pcss" path="res://scenes/particles/blood/blood.tscn" id="3_2bfmo"]
+[ext_resource type="PackedScene" uid="uid://b55dolmfgviyt" path="res://scenes/particles/blood/splurt.tscn" id="4_6hcpt"]
+[ext_resource type="Texture2D" uid="uid://yd4vlk77ms6n" path="res://interface/hp_bar/empty.png" id="5_nxrlg"]
+[ext_resource type="Texture2D" uid="uid://3do441ylg6nu" path="res://interface/hp_bar/full.png" id="6_asung"]
+[ext_resource type="Script" uid="uid://c03y3leexeyn0" path="res://interface/hp_bar/hp_bar.gd" id="7_asung"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dcl4"]
+atlas = ExtResource("1_wj822")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bfmo"]
+atlas = ExtResource("1_wj822")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hcpt"]
+atlas = ExtResource("1_wj822")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_152vk"]
+atlas = ExtResource("1_wj822")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nxrlg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5dcl4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bfmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hcpt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_152vk")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 10.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_asung"]
+polygon = PackedVector2Array(-16, -16, -32, -8, -56, 8, -56, 16, 0, 16, 48, 0)
+
+[node name="Ramfish" type="CharacterBody2D" unique_id=190960780 groups=["enemy"]]
+script = ExtResource("1_5dcl4")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="." unique_id=280285759]
+visible = false
+position = Vector2(1.6000061, -8)
+rotation = 1.5707964
+polygon = PackedVector2Array(8.000003, 56, -15.999999, 16, -32, -15.999999, -16, -7.9999995, -8.000002, -40, -40.000004, -48, 15.999997, -56, 7.999998, -40, 15.999999, -32, 15.999999, -16, 24, -1.0490733e-06, 32, -8.000001, 32, 7.9999986, 24.000002, 23.999998, 16.000002, 56)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=82424789]
+position = Vector2(1.6000061, -8)
+sprite_frames = SubResource("SpriteFrames_nxrlg")
+animation = &"new_animation"
+frame_progress = 0.45825696
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1991213804]
+visible = false
+modulate = Color(1, 1, 1, 0.507)
+self_modulate = Color(1, 1, 1, 0.513)
+occluder = SubResource("OccluderPolygon2D_asung")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1043022891]
+visible = false
+position = Vector2(1.6000061, -8)
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D" unique_id=1572720163]
+rotation = 1.5707964
+scale = Vector2(1.2, 1.2)
+polygon = PackedVector2Array(8.000003, 56, -15.999999, 16, -32, -15.999999, -16, -7.9999995, -8.000002, -40, -40.000004, -48, 15.999997, -56, 7.999998, -40, 15.999999, -32, 15.999999, -16, 24, -1.0490733e-06, 32, -8.000001, 32, 7.9999986, 24.000002, 23.999998, 16.000002, 56)
+
+[node name="Up" type="RayCast2D" parent="." unique_id=1774319027]
+rotation = 2.3561945
+target_position = Vector2(0, 362.0387)
+
+[node name="Straight" type="RayCast2D" parent="." unique_id=2085069100]
+rotation = 1.5707964
+target_position = Vector2(1.9582701e-05, 448)
+
+[node name="Down" type="RayCast2D" parent="." unique_id=222909244]
+rotation = 0.7853982
+target_position = Vector2(0, 362.0387)
+
+[node name="Blood1" parent="." unique_id=229928351 instance=ExtResource("3_2bfmo")]
+visible = false
+position = Vector2(-8, 0)
+
+[node name="Blood2" parent="." unique_id=371947473 instance=ExtResource("3_2bfmo")]
+visible = false
+position = Vector2(-8, 0)
+
+[node name="Blood3" parent="." unique_id=1491784985 instance=ExtResource("3_2bfmo")]
+visible = false
+position = Vector2(-8, 0)
+
+[node name="Splurt" parent="." unique_id=1254705012 instance=ExtResource("4_6hcpt")]
+
+[node name="HPBar" type="TextureProgressBar" parent="." unique_id=1051696207]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = -48.0
+value = 100.0
+texture_under = ExtResource("5_nxrlg")
+texture_progress = ExtResource("6_asung")
+script = ExtResource("7_asung")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

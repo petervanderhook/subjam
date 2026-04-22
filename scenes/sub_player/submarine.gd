@@ -5,9 +5,9 @@ extends CharacterBody2D
 @export var deceleration := 60.0
 
 @export var sonar_rays := 96
-@export var sonar_range := 1200.0
-@export var sonar_speed := 800.0
-@export var sonar_duration := 1.2
+@export var sonar_range := 2400.0
+@export var sonar_speed := 1200.0
+@export var sonar_duration := 0.6
 @export var sonar_collision_mask := 1
 @export var hit_radius := 5.0
 @export var ring_width := 2.0
@@ -21,6 +21,7 @@ extends CharacterBody2D
 @onready var gun2 = $Components/Gun2/GunLight
 @onready var gun2_sound = $Components/Gun2/Shoot
 @onready var sub_sprite_base = $Sprites/SubSpriteBase
+@onready var sub_light_occluder = $Sprites/LightOccluder
 
 var sonar_wobble_offset := 0.0
 var sonar_origin := Vector2.ZERO
@@ -51,8 +52,10 @@ func _ready():
 func _physics_process(delta):
 	if velocity.x < 0:
 		sub_sprite_base.flip_h = true
-	else:
+		sub_light_occluder.invert_enabled = true
+	elif velocity.x > 0:
 		sub_sprite_base.flip_h = false
+		sub_light_occluder.invert_enabled = false
 		
 	## LIGHTS (Power Draw)
 	light_timer += delta

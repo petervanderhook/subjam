@@ -3,7 +3,7 @@ extends Node2D
 var sonar_origin := Vector2.ZERO
 var sonar_pulse_active := false
 var sonar_pulse_radius := 0.0
-var sonar_range := 650.0
+var sonar_range := 1650.0
 var sonar_duration := 2.4
 var hit_radius := 6.0
 var ring_width := 3.0

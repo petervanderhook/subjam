@@ -5,7 +5,7 @@ extends Area2D
 @export var trail_point_spacing := 6.0
 @export var wake_spawn_interval := 0.02
 @export var wake_lifetime := 1.38
-@onready var bullet_impact = preload("res://scenes/bullet/impact.tscn")
+@onready var bullet_impact = preload("res://scenes/player_bullet/impact.tscn")
 @export var max_trail_length := 100.0
 @export var trail_growth_speed := 200.0
 var direction := Vector2.RIGHT
@@ -90,6 +90,8 @@ func _draw() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		#print("Hit: ", body)
+		if body.is_in_group("enemy"):
+			body.damage(2.0)
 		var new_impact = bullet_impact.instantiate()
 		get_parent().add_child(new_impact)
 		new_impact.global_position = global_position

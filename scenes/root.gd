@@ -27,6 +27,8 @@ func load_level():
 func _on_play_pressed() -> void:
 	ui_node.clear_ui()
 	load_level()
+	
+	camera_node.setup_camera_limits()
 
 
 func _on_options_pressed() -> void:
