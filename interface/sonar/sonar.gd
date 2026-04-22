@@ -40,6 +40,7 @@ func world_to_screen(world_pos: Vector2) -> Vector2:
 func world_radius_to_screen(radius: float) -> float:
 	var canvas_xform: Transform2D = get_viewport().get_canvas_transform()
 	return canvas_xform.basis_xform(Vector2(radius, 0)).length()
+
 func draw_wobbly_ring(center: Vector2, screen_radius: float, world_radius: float, alpha: float):
 	var points := PackedVector2Array()
 	var segments := 96

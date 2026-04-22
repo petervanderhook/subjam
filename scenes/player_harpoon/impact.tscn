@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cw1mtwidee8jv"]
+
+[ext_resource type="Texture2D" uid="uid://dhldwjcapghwi" path="res://scenes/player_harpoon/harpoon.png" id="1_km53a"]
+
+[node name="Node2D" type="Node2D" unique_id=1465235155]
+
+[node name="Harpoon" type="Sprite2D" parent="." unique_id=1062117476]
+rotation = 0.7853982
+texture = ExtResource("1_km53a")

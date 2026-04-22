@@ -19,7 +19,7 @@ var shake_strength := 0.0
 var shake_offset := Vector2.ZERO
 
 func _ready() -> void:
-	target_zoom = min_zoom
+	target_zoom = max_zoom
 	cam.zoom = Vector2(target_zoom, target_zoom)
 
 func _physics_process(delta: float) -> void:

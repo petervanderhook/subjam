@@ -47,7 +47,7 @@ func _ready():
 	scene_root.camera_node.target = self
 	change_sonar_mode("off")
 	set_gun('gun1', 'auto')
-	set_gun('gun2', 'auto')
+	set_gun('gun2', 'harpoon')
 
 func _physics_process(delta):
 	if velocity.x < 0:
@@ -141,7 +141,7 @@ func set_gun(gun, type):
 			gun1_sound.stream = load("res://audio/bullet.wav")
 		if type == "harpoon":
 			gun1.gun_type = type
-			gun1.shoot_speed = 0.2
+			gun1.shoot_speed = 2.0
 			gun1.projectile_scene = "harpoon"
 			gun1.autofire = false
 			gun1_sound.stream = load("res://audio/bullet.wav")
@@ -178,7 +178,7 @@ func set_gun(gun, type):
 			gun2_sound.stream = load("res://audio/bullet.wav")
 		if type == "harpoon":
 			gun2.gun_type = type
-			gun2.shoot_speed = 0.2
+			gun2.shoot_speed = 2.0
 			gun2.projectile_scene = "harpoon"
 			gun2.autofire = false
 			gun2_sound.stream = load("res://audio/bullet.wav")
@@ -266,3 +266,6 @@ func start_sonar_pulse():
 				"distance": sonar_origin.distance_to(pos),
 				"revealed": false
 			})
+	
+	## AFTER ALL REVEALED HITS ARE FOUND
+	print(sonar_hits)

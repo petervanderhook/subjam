@@ -35,6 +35,7 @@ sources/0 = SubResource("TileSetAtlasSource_k5jlv")
 script = ExtResource("1_ly3lj")
 
 [node name="Background" type="Polygon2D" parent="." unique_id=91511984]
+visible = false
 z_index = -100
 position = Vector2(-3661.9355, -1989.6775)
 scale = Vector2(1.1220645, 1.0663226)
@@ -42,6 +43,7 @@ color = Color(0.09985284, 0.09985284, 0.15170373, 1)
 polygon = PackedVector2Array(-24642.137, -20558.81, -25604.648, 120441.68, 151212.28, 118040.9, 135698.03, -22764.521)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1746578013]
+visible = false
 color = Color(0.01014077, 0.01013889, 0.020267729, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=679719408]

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://4f6hv2850pbr"]
+
+[ext_resource type="Script" uid="uid://bdqi1w3hu6odt" path="res://scenes/player_harpoon/harpoon.gd" id="1_a2wci"]
+[ext_resource type="Texture2D" uid="uid://dhldwjcapghwi" path="res://scenes/player_harpoon/harpoon.png" id="2_a2wci"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
+size = Vector2(26, 15)
+
+[node name="Bullet" type="Area2D" unique_id=884526399]
+script = ExtResource("1_a2wci")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=615055451]
+z_index = 5
+rotation = 0.7853982
+texture = ExtResource("2_a2wci")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=156485595]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_y25gk")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

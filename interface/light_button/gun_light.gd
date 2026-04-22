@@ -1,6 +1,8 @@
 extends PointLight2D
 var left_held_timer = 0.0
+var batt_left_held_timer = 0.0
 var right_held_timer = 0.0
+var batt_right_held_timer = 0.0
 var middle_held_timer = 0.0
 var timer = 0.0
 var left_enabled = false
@@ -12,6 +14,7 @@ var right_enabled = false
 @onready var level_node = get_tree().get_first_node_in_group("level")
 @onready var scene_root = get_tree().get_first_node_in_group("scene_root")
 @onready var bullet = preload("res://scenes/player_bullet/bullet.tscn")
+@onready var harpoon = preload("res://scenes/player_harpoon/harpoon.tscn")
 @export var gun_type = "none"
 
 var shoot_speed = 0.0
@@ -31,9 +34,10 @@ func set_scenes():
 func _physics_process(delta: float) -> void:
 	timer += delta
 	if left_gun:
+		left_held_timer += delta
 		## LEFT CLICK
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and (get_viewport().get_mouse_position().y <= 800):
-			left_held_timer += delta
+			batt_left_held_timer += delta
 			left_enabled = true
 			look_at(get_global_mouse_position())
 			rotation_degrees = rotation_degrees + 180
@@ -41,16 +45,17 @@ func _physics_process(delta: float) -> void:
 			shoot_gun()
 			
 		else:
-			left_held_timer = 0.0
+			batt_left_held_timer = 0.0
 			left_enabled = false
-		if left_held_timer > 1.0:
-			left_held_timer = 0
+		if batt_left_held_timer > 1.0:
+			batt_left_held_timer = 0
 			get_parent().get_parent().get_parent().battery_bar.draw_power(0.1)
 			
 	if right_gun:
+		right_held_timer += delta
 		## RIGHT CLICK
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and (get_viewport().get_mouse_position().y <= 800):
-			right_held_timer += delta
+			batt_right_held_timer += delta
 			right_enabled = true
 			look_at(get_global_mouse_position())
 			rotation_degrees = rotation_degrees + 180
@@ -58,10 +63,10 @@ func _physics_process(delta: float) -> void:
 			shoot_gun()
 			
 		else:
-			right_held_timer = 0.0
+			batt_right_held_timer = 0.0
 			right_enabled = false
-		if right_held_timer > 1.0:
-			right_held_timer = 0
+		if batt_right_held_timer > 1.0:
+			batt_right_held_timer = 0
 			get_parent().get_parent().get_parent().battery_bar.draw_power(0.1)
 	
 	## MIDDLE CLICK
@@ -101,5 +106,20 @@ func shoot_gun():
 				new_bullet.direction = dir
 				new_bullet.rotation = dir.angle()
 				get_parent().get_child(1).pitch_scale = randf_range(0.5, 1.5)
+				get_parent().get_child(1).playing = true
+				scene_root.camera_node.shake(5.0)
+		elif projectile_scene == "harpoon":
+			print(right_held_timer, ' ', shoot_speed)
+			if (left_held_timer > shoot_speed) or (right_held_timer > shoot_speed):
+				left_held_timer = 0.0
+				right_held_timer = 0.0
+				var new_harpoon = harpoon.instantiate()
+				level_node.projectile_node.add_child(new_harpoon)
+				new_harpoon.global_position = global_position
+				
+				var dir = (get_global_mouse_position() - new_harpoon.global_position).normalized()
+				new_harpoon.direction = dir
+				new_harpoon.rotation = dir.angle()
+				get_parent().get_child(1).pitch_scale = randf_range(0.1, 0.2)
 				get_parent().get_child(1).playing = true
 				scene_root.camera_node.shake(5.0)
