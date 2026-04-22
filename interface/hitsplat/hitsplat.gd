@@ -7,7 +7,7 @@ var age := 0.0
 
 func setup(value: int) -> void:
 	label.text = str(value)
-	print("Spawned! ", get_parent(), label.text)
+	#print("Spawned! ", get_parent(), label.text)
 	velocity = Vector2(
 	randf_range(-30.0, 30.0),  # X stays constant
 	randf_range(-200.0, -140.0) # strong upward burst

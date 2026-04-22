@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://de3711lungdgi"]
+
+[ext_resource type="AudioStream" uid="uid://bq2s2ytihu6de" path="res://audio/impact.wav" id="1_l877q"]
+[ext_resource type="Script" uid="uid://c55qld4uakkxi" path="res://scenes/player_laser/impact.gd" id="2_5klx7"]
+[ext_resource type="Texture2D" uid="uid://b6qgoafjusg30" path="res://scenes/station/station_aura_lightmap.png" id="3_isnte"]
+
+[node name="Impact" type="AudioStreamPlayer2D" unique_id=2070822313]
+stream = ExtResource("1_l877q")
+volume_db = -10.0
+autoplay = true
+max_distance = 1000.0
+panning_strength = 0.29
+script = ExtResource("2_5klx7")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1763566164]
+color = Color(0.9795554, 0.25002515, 7.392884e-05, 1)
+texture = ExtResource("3_isnte")
+texture_scale = 0.1

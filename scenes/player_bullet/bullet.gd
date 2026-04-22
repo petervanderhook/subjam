@@ -13,24 +13,36 @@ var trail_points: Array[Vector2] = []
 var wakes: Array = []
 var wake_timer := 0.0
 var trail_length := 0.0
+var damage = 2.0
+var proj_invalid = false
+var death_time = 0.0
+@onready var sprite_node = $Sprite2D
 func _ready() -> void:
 	top_level = true
 	trail_points.append(global_position)
 
 func _physics_process(delta: float) -> void:
-	global_position += direction * speed * delta
-	rotation = direction.angle()
-	
+	if proj_invalid: 
+		sprite_node.visible = false
+		death_time += delta
+		if death_time >= 1.2:
+			queue_free()
+	else:
+		global_position += direction * speed * delta
+		rotation = direction.angle()
+		
 	if trail_points.is_empty() or global_position.distance_to(trail_points[trail_points.size() - 1]) >= trail_point_spacing:
-		trail_points.append(global_position)
+		if not proj_invalid:
+			trail_points.append(global_position)
 
 	if trail_points.size() > max_trail_points:
 		trail_points.pop_front()
 	trail_length = min(max_trail_length, trail_length + trail_growth_speed * delta)
 	wake_timer += delta
 	if wake_timer >= wake_spawn_interval:
-		wake_timer = 0.0
-		spawn_wake()
+		if not proj_invalid:
+			wake_timer = 0.0
+			spawn_wake()
 
 	for i in range(wakes.size() - 1, -1, -1):
 		var w = wakes[i]
@@ -88,14 +100,15 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, 7.0, Color(1.0, 0.9, 0.2, 0.12))
 
 func _on_body_entered(body: Node2D) -> void:
+	if proj_invalid: return
 	if not body.is_in_group("player"):
 		#print("Hit: ", body)
 		if body.is_in_group("enemy"):
-			body.damage(2.0)
+			body.damage(damage)
 		var new_impact = bullet_impact.instantiate()
 		get_parent().add_child(new_impact)
 		new_impact.global_position = global_position
-		queue_free()
+		proj_invalid = true
 
 func _on_area_entered(area: Area2D) -> void:
 	pass

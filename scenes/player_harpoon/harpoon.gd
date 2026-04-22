@@ -8,6 +8,7 @@ extends Area2D
 @onready var bullet_impact = preload("res://scenes/player_harpoon/impact.tscn")
 @export var max_trail_length := 100.0
 @export var trail_growth_speed := 200.0
+@onready var sprite_node = $Sprite2D
 var direction := Vector2.RIGHT
 var trail_points: Array[Vector2] = []
 var wakes: Array = []
@@ -17,22 +18,31 @@ var grav := 15.0
 var velocity = Vector2(0,0)
 var last_position := Vector2.ZERO
 var proj_invalid = false
+var damage = 15.0
+var death_time = 0.0
 func _ready() -> void:
 	trail_points.append(global_position)
 	last_position = global_position
 
 func _physics_process(delta: float) -> void:
-	if proj_invalid: return
-	velocity.y  +=  grav * delta
-	print(velocity.y)
-	global_position += direction * speed * delta + velocity
-	 
-	var movement = global_position - last_position
-	rotation = movement.angle()
+	if proj_invalid: 
+		sprite_node.visible = false
+		death_time += delta
+		if death_time >= 5.0:
+			queue_free()
+	else:
+		velocity.y  +=  grav * delta
+		#print(velocity.y)
+		global_position += direction * speed * delta + velocity
+		 
+		var movement = global_position - last_position
+		rotation = movement.angle()
 	
 	
 	if trail_points.is_empty() or global_position.distance_to(trail_points[trail_points.size() - 1]) >= trail_point_spacing:
 		trail_points.append(global_position)
+	else:
+		trail_points = []
 
 	if trail_points.size() > max_trail_points:
 		trail_points.pop_front()
@@ -100,19 +110,19 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, 7.0, Color(1.0, 0.9, 0.2, 0.12))
 
 func _on_body_entered(body: Node2D) -> void:
+	if proj_invalid: return
 	if not body.is_in_group("player"):
 		#print("Hit: ", body)
 		if body.is_in_group("enemy"):
-			body.damage(15.0)
-		var new_impact = bullet_impact.instantiate()
-		body.add_child(new_impact)
-		new_impact.global_position = global_position
-		new_impact.rotation += rotation
-		#body.add_child(self)
-		top_level = false 
+			body.damage(damage)
+			var new_impact = bullet_impact.instantiate()
+			body.add_child(new_impact)
+			new_impact.global_position = global_position
+			new_impact.rotation += rotation
+			#body.add_child(self)
+			top_level = false 
 		
 		proj_invalid = true
-		queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
 	pass

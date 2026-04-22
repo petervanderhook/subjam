@@ -217,6 +217,8 @@ polygon = PackedVector2Array(-16, -16, -32, -8, -56, 8, -56, 16, 0, 16, 48, 0)
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_asung"]
 
 [node name="Ramfish" type="CharacterBody2D" unique_id=190960780 groups=["enemy"]]
+collision_layer = 65
+collision_mask = 65
 script = ExtResource("1_5dcl4")
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="." unique_id=280285759]
