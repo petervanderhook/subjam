@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://du2srq7b2ncl7"]
+
+[ext_resource type="Texture2D" uid="uid://b5kuwnkra8r70" path="res://scenes/foliage/seaweed_2/seaweed_2.png" id="1_vjacm"]
+[ext_resource type="Script" uid="uid://djqvq140vdn4" path="res://scenes/foliage/seaweed_1/foliage_animate.gd" id="2_1kod6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kod6"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34tqy"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uilj7"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(128, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b061u"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(192, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omc17"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(256, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kd61f"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(0, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lreky"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(64, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ffr7"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(128, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gc38"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(192, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhtx7"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(256, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqvqa"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(0, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1euue"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(64, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17vqv"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(128, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfpur"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(192, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv6ip"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(256, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3cc5"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(0, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2prk0"]
+atlas = ExtResource("1_vjacm")
+region = Rect2(64, 384, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_84eyw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kod6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34tqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uilj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b061u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_omc17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kd61f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lreky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ffr7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gc38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mhtx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqvqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1euue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17vqv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfpur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv6ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3cc5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2prk0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="seaweed_2" type="Node2D" unique_id=1059309237]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=471727408]
+position = Vector2(-1, -132)
+sprite_frames = SubResource("SpriteFrames_84eyw")
+frame_progress = 0.28647587
+speed_scale = 1.5
+script = ExtResource("2_1kod6")

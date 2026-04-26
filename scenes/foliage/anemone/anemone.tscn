@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://tpexgx6fc1i2"]
+
+[ext_resource type="Texture2D" uid="uid://cna5fhf3b4o0i" path="res://scenes/foliage/anemone/anemone.png" id="1_b8fiv"]
+[ext_resource type="Script" uid="uid://djqvq140vdn4" path="res://scenes/foliage/seaweed_1/foliage_animate.gd" id="2_f4dfa"]
+[ext_resource type="Texture2D" uid="uid://783ojpg3y142" path="res://scenes/sub_player/aura.png" id="3_f4dfa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gunrp"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4g30j"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0lpg"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srj5r"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk6ec"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi6c4"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(512, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwo00"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkngc"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(256, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kffl5"]
+atlas = ExtResource("1_b8fiv")
+region = Rect2(512, 512, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pfir7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gunrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4g30j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0lpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srj5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk6ec")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gi6c4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwo00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkngc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kffl5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f02pf"]
+light_mode = 1
+
+[node name="Node2D" type="Node2D" unique_id=1615951205]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1315865225]
+position = Vector2(0, -172)
+sprite_frames = SubResource("SpriteFrames_pfir7")
+frame_progress = 0.54342854
+script = ExtResource("2_f4dfa")
+play_speed = 1.0
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1327862915]
+material = SubResource("CanvasItemMaterial_f02pf")
+position = Vector2(0, -176)
+amount = 12
+lifetime = 3.0
+emission_shape = 3
+emission_rect_extents = Vector2(90, 50)
+direction = Vector2(-1, 0)
+spread = 139.13
+gravity = Vector2(0, -40)
+angular_velocity_min = 50.0
+angular_velocity_max = 150.0
+orbit_velocity_min = -0.05
+orbit_velocity_max = 0.05
+color = Color(0.25882354, 1, 0.15294118, 1)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1556407597]
+position = Vector2(-6.0000005, -179)
+scale = Vector2(0.635, 0.4825)
+color = Color(0, 1, 0.27450982, 1)
+energy = 0.3
+texture = ExtResource("3_f4dfa")

@@ -3,6 +3,7 @@ var level_node
 var ui_node
 var camera_node
 var level_scene = preload("res://scenes/world/Level.tscn")
+var launch_args = []
 
 func _ready():
 	level_node = $Level
@@ -10,6 +11,8 @@ func _ready():
 	camera_node = $Camera
 	ui_node.clear_ui()
 	ui_node.show_menu()
+	launch_args = OS.get_cmdline_args()
+	print(launch_args)
 	
 
 

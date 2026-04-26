@@ -29,6 +29,7 @@ const SMOOTH_CYCLES = 4
 var assembled_truss = false
 var grid = []
 
+
 @export var preview_map_in_editor := false:
 	set(value):
 		if not Engine.is_editor_hint():
@@ -53,6 +54,7 @@ func rebuild_editor_preview() -> void:
 	draw_map()
 	
 func _ready():
+	
 	canvas_mod.visible = true
 	backdrop.visible = true
 	#if FileAccess.file_exists("res://scenes/world/saved_map.json"):
@@ -79,7 +81,6 @@ func _process(_delta):
 func load_player():
 	var sub = player_scene.instantiate()
 	player_node.add_child(sub)
-	sub.global_position = Vector2i(3000,1500)
 	sub.set_sonar_node(sonar_node)
 	scene_root.ui_node.game_panel.set_player(sub)
 

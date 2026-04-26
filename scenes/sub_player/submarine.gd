@@ -1,8 +1,10 @@
 extends CharacterBody2D
+@export var debugging = false
 
 @export var max_speed := 220.0
 @export var acceleration := 120.0
 @export var deceleration := 60.0
+
 
 @export var sonar_rays := 96
 @export var sonar_range := 2400.0
@@ -22,6 +24,7 @@ extends CharacterBody2D
 @onready var gun2_sound = $Components/Gun2/Shoot
 @onready var sub_sprite_base = $Sprites/SubSpriteBase
 @onready var sub_light_occluder = $Sprites/LightOccluder
+@onready var light_aura = $LightAura
 
 var sonar_wobble_offset := 0.0
 var sonar_origin := Vector2.ZERO
@@ -40,22 +43,36 @@ var left_light_enabled = false
 var right_light_enabled = false
 
 var light_timer = 0.0
-
 func _ready():
+	
+	var args = get_tree().get_first_node_in_group("scene_root").launch_args
+	print("ARGS: ", args)
+	for arg in args:
+		if arg == "debug":
+			debugging = true
+	if debugging:
+		max_speed += 920.0
+		acceleration += 520.0
+		deceleration += 360.0
+		light_aura.scale = Vector2(15.0, 15.0)
+		light_aura.energy = 1.0
+
 	scene_root = get_parent().get_parent().get_parent().get_parent()
 	battery_bar = scene_root.ui_node.game_panel.battery_bar
 	scene_root.camera_node.target = self
-	change_sonar_mode("off")
 	set_gun('gun1', 'laser')
 	set_gun('gun2', 'harpoon')
+	await get_tree().process_frame
+	change_sonar_mode("on")
+	
 
 func _physics_process(delta):
 	if velocity.x < 0:
 		sub_sprite_base.flip_h = true
-		sub_light_occluder.invert_enabled = true
+		sub_light_occluder.scale = Vector2(-1, 1)
 	elif velocity.x > 0:
 		sub_sprite_base.flip_h = false
-		sub_light_occluder.invert_enabled = false
+		sub_light_occluder.scale = Vector2(1, 1)
 		
 	## LIGHTS (Power Draw)
 	light_timer += delta
@@ -268,4 +285,5 @@ func start_sonar_pulse():
 			})
 	
 	## AFTER ALL REVEALED HITS ARE FOUND
-	print(sonar_hits)
+	#print("SONAR HITS")
+	#print(sonar_hits)

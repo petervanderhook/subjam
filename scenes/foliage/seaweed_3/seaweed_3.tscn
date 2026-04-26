@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://llmpyq2pjtct"]
+
+[ext_resource type="Texture2D" uid="uid://dl3nyu42ll63c" path="res://scenes/foliage/seaweed_3/seaweed_3.png" id="1_up1cx"]
+[ext_resource type="Script" uid="uid://djqvq140vdn4" path="res://scenes/foliage/seaweed_1/foliage_animate.gd" id="2_tpak5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpak5"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(192, 0, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7i2l"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(256, 0, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmiy4"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(0, 256, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi600"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(64, 256, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w06x"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(128, 256, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3k53"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(192, 256, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_voewa"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(256, 256, 64, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aa30x"]
+atlas = ExtResource("1_up1cx")
+region = Rect2(0, 512, 64, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_706tn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpak5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7i2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmiy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yi600")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5w06x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3k53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_voewa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aa30x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_voewa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3k53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5w06x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yi600")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmiy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7i2l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="seaweed_3" type="Node2D" unique_id=983407428]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=927805151]
+position = Vector2(0, -220)
+sprite_frames = SubResource("SpriteFrames_706tn")
+frame_progress = 0.08934491
+speed_scale = 1.2
+script = ExtResource("2_tpak5")
+play_speed = 1.2

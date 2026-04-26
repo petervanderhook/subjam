@@ -15,8 +15,11 @@ extends CharacterBody2D
 @onready var splurt = $Splurt
 @onready var hp_bar : TextureProgressBar = $HPBar
 @onready var collision_node = $CollisionShape2D
+@onready var harvest_tooltip = $HarvestTooltip
+@onready var harvest_area = $HarvestArea
 const SPRITE_FORWARD := Vector2.LEFT
-
+var player_in_range = false
+var harvested = false
 @export var health = 100.0
 @onready var max_health = health
 var ray_data = []
@@ -43,6 +46,8 @@ func _ready():
 		{ "ray": down_ray, "weight": 1.0 }
 	]
 	damage(0)
+	harvest_tooltip.visible = false
+
 	
 	
 func _physics_process(delta: float) -> void:
@@ -119,7 +124,7 @@ func _physics_process(delta: float) -> void:
 				velocity = velocity.move_toward(desired_velocity, accel * delta)
 				
 				#Debug draw collision avoidance points
-				if true:
+				if false:
 					queue_redraw()
 				move_and_slide()
 				update_sprite_flip()
@@ -128,8 +133,21 @@ func _physics_process(delta: float) -> void:
 					state = State.ATTACK
 					current_state_time = 0.0
 		State.DEAD:
-			velocity = Vector2.DOWN * 450 * delta
-			move_and_slide()
+			if not harvested:
+				velocity = velocity.lerp(Vector2.DOWN * 45.0, 1.0 * delta)
+				move_and_slide()
+				if Input.is_action_just_pressed("interact"):
+					if player_in_range:
+						current_state_time = 0.0
+						harvested = true
+						harvest_tooltip.visible = false
+			else:
+				var to_pos = get_tree().get_first_node_in_group("player").global_position + Vector2(0, 10)
+				global_position = global_position.lerp(to_pos,  (3 + current_state_time) * delta)
+				var dist = global_position.distance_to(to_pos)
+				if dist <= 20.0:
+					print("HARVESTED RIGHT AT THIS MOMENT")
+					queue_free()
 	#
 	
 func _draw():
@@ -219,8 +237,11 @@ func die():
 		blood1.visible = false
 		blood2.visible = false
 		blood3.amount = 4
-		collision_node.set_deferred("disabled", true)
+		set_collision_layer_value(1, false)
+		set_collision_mask_value(1, false)
 		hp_bar.visible = false
+		current_state_time = 0.0
+		harvest_area.monitoring = true
 
 func set_player() -> void:
 	player_node = get_tree().get_first_node_in_group("player")
@@ -233,3 +254,19 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				print("Player hit!")
 				body.velocity += velocity * 1.5  # tweak strength
 				state = State.CIRCLE
+
+
+func _on_harvest_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		if state == 3:
+			print("Dead and entered by player!")
+			harvest_tooltip.visible = true
+			player_in_range = true
+
+
+func _on_harvest_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		if state == 3:
+			print("Dead and exited by player!")
+			harvest_tooltip.visible = false
+			player_in_range = false

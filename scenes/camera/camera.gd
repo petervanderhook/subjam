@@ -10,7 +10,7 @@ var target = null
 
 @export var zoom_step := 0.1
 @export var min_zoom := 0.2
-@export var max_zoom := 0.5
+@export var max_zoom := 0.8
 @export var zoom_lerp_speed := 10.0
 @export var follow_lerp_speed := 8.0
 
@@ -19,7 +19,7 @@ var shake_strength := 0.0
 var shake_offset := Vector2.ZERO
 
 func _ready() -> void:
-	target_zoom = max_zoom
+	target_zoom = 0.5
 	cam.zoom = Vector2(target_zoom, target_zoom)
 
 func _physics_process(delta: float) -> void:

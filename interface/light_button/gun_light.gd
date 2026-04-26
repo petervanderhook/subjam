@@ -8,6 +8,7 @@ var timer = 0.0
 var left_enabled = false
 var middle_enabled = false
 var right_enabled = false
+var laser_range = 950.0
 
 @export var left_gun = false
 @export var right_gun = false
@@ -16,6 +17,7 @@ var right_enabled = false
 @onready var bullet = preload("res://scenes/player_bullet/bullet.tscn")
 @onready var harpoon = preload("res://scenes/player_harpoon/harpoon.tscn")
 @export var gun_type = "none"
+@onready var player_node = get_parent().get_parent().get_parent()
 
 var outside = Color.RED
 var inside = Color.PALE_VIOLET_RED
@@ -198,11 +200,11 @@ func shoot_gun():
 				scene_root.camera_node.shake(5.0)
 				
 				var dir = (get_global_mouse_position() - global_position).normalized()
-				var local_mouse_pos = global_position + dir * 800.0
+				var local_mouse_pos = global_position + dir * laser_range
 				var local_pos = global_position
 				var space = get_world_2d().direct_space_state
 				var query = PhysicsRayQueryParameters2D.create(local_pos, local_mouse_pos)
-				query.exclude = [self]
+				query.exclude = [self, player_node]
 				query.collision_mask &= ~(1 << (7 - 1))
 				
 				var result = space.intersect_ray(query)
@@ -212,9 +214,10 @@ func shoot_gun():
 					if not result.collider.is_in_group("enemy"):
 						local_mouse_pos = result.position
 					else:
-						result.collider.damage(1)
+						result.collider.damage(10 )
 				from = to_local(local_pos)
 				to = to_local(local_mouse_pos)
 				print(local_pos, local_mouse_pos)
+				get_parent().get_parent().get_parent().battery_bar.draw_power(0.3)
 				queue_redraw()
 				
